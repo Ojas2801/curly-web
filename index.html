@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRIS | Smart Mirror OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --iris-blue: #00d4ff; }
+        body { font-family: 'Inter', sans-serif; background: #010205; color: #f8fafc; scroll-behavior: smooth; overflow-x: hidden; }
+        .font-tech { font-family: 'Orbitron', sans-serif; }
+        
+        /* Mirror Glass Layer */
+        .mirror-frame { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 60px rgba(0,0,0,1);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mirror-active { border-color: var(--iris-blue); box-shadow: 0 0 50px rgba(0, 212, 255, 0.3); }
+
+        /* UI Telecast Glow */
+        .ui-glow { text-shadow: 0 0 20px rgba(0, 212, 255, 0.9); color: #fff; }
+        .border-glow { border-color: rgba(0, 212, 255, 0.3); box-shadow: 0 0 20px rgba(0, 212, 255, 0.1); }
+
+        /* Voice Wave Animation */
+        @keyframes wave { 0%, 100% { height: 10px; } 50% { height: 50px; } }
+        .voice-bar { width: 6px; background: var(--iris-blue); border-radius: 3px; animation: wave 1s ease-in-out infinite; }
+        
+        /* Page Transitions */
+        .section-fade { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
+        .section-fade.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-black">
+
+    <nav class="flex justify-between items-center px-10 py-6 fixed w-full z-50 bg-black/60 backdrop-blur-2xl border-b border-white/5">
+        <div class="font-tech text-2xl tracking-[0.4em] text-blue-400 ui-glow">IRIS_CORE</div>
+        <div class="hidden lg:flex gap-10 text-[10px] uppercase tracking-[0.3em] font-semibold text-gray-400">
+            <a href="#home" class="hover:text-blue-400 transition">Home</a>
+            <a href="#logic" class="hover:text-blue-400 transition">Problem</a>
+            <a href="#architecture" class="hover:text-blue-400 transition">Architecture</a>
+            <a href="#telecast" class="hover:text-blue-400 transition">Live Display</a>
+        </div>
+        <div class="text-right border-r-4 border-blue-500 pr-6">
+            <p class="font-tech text-[10px] text-blue-400 uppercase leading-none">Shri Siddheshwar</p>
+            <p class="text-[8px] text-gray-500 uppercase tracking-widest">Women's Polytechnic, Solapur</p>
+        </div>
+    </nav>
+
+    <header id="home" class="h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
+        <div class="mb-8 p-1 border-glow rounded-full px-6 py-2 bg-blue-500/5">
+            <span class="text-[10px] font-tech text-blue-400 tracking-[0.3em] uppercase">Raspberry Pi Smart living [cite: 7, 8]</span>
+        </div>
+        <h1 class="text-6xl md:text-9xl font-bold tracking-tighter mb-6 text-white uppercase">Think <br><span class="text-blue-500 italic">Deeper.</span></h1>
+        <p class="max-w-xl mx-auto text-gray-400 text-lg">Centralizing information through a context-aware Raspberry Pi information system[cite: 12, 23].</p>
+        <div class="mt-12">
+            <button onclick="irisDailyBriefing()" class="bg-blue-600 hover:bg-blue-500 px-12 py-5 rounded-2xl font-bold uppercase text-xs tracking-[0.2em] transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(37,99,235,0.4)] text-white">
+                Initialize Voice Briefing
+            </button>
+        </div>
+    </header>
+
+    <section id="logic" class="section-fade py-32 max-w-7xl mx-auto px-6 border-t border-white/5">
+        <div class="grid lg:grid-cols-2 gap-20 items-center">
+            <div>
+                <h2 class="font-tech text-blue-500 text-sm tracking-widest uppercase mb-6">The Challenge [cite: 4]</h2>
+                <h3 class="text-4xl font-bold mb-8 text-white">Device Fragmentation [cite: 10]</h3>
+                <p class="text-gray-400 leading-relaxed mb-6">
+                    People rely on multiple devices like smartphones and TVs for daily info, resulting in constant distractions[cite: 10, 11]. IRIS provides a seamless way to access data without disturbing routine activities[cite: 20].
+                </p>
+                <div class="space-y-4">
+                    <p class="text-sm flex gap-3 text-gray-300"><span class="text-blue-400 font-bold">01.</span> Centralized, hands-free system[cite: 8, 12].</p>
+                    <p class="text-sm flex gap-3 text-gray-300"><span class="text-blue-400 font-bold">02.</span> LCD display behind a two-way mirror[cite: 21].</p>
+                    <p class="text-sm flex gap-3 text-gray-300"><span class="text-blue-400 font-bold">03.</span> Reduction of intrusive notifications[cite: 13, 17].</p>
+                </div>
+            </div>
+            <div class="mirror-frame p-10 rounded-[3rem]">
+                <h4 class="font-tech text-xs text-blue-400 mb-6 uppercase">System Objectives [cite: 6]</h4>
+                <ul class="space-y-6 text-gray-400 text-sm">
+                    <li>• Real-time weather, news, and calendar[cite: 7, 23].</li>
+                    <li>• Cost-effective and user-friendly[cite: 8, 42].</li>
+                    <li>• IoT sensor environmental detection[cite: 22].</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="telecast" class="section-fade py-24 max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="font-tech text-3xl text-white uppercase tracking-widest">Live Mirror Interface</h2>
+            <p class="text-blue-500 uppercase text-[10px] tracking-widest mt-2">Active Telecast Module [cite: 19]</p>
+        </div>
+
+        <div id="main-mirror" class="mirror-frame rounded-[4rem] p-16 relative overflow-hidden min-h-[600px] flex flex-col justify-between">
+            <div class="flex justify-between items-start">
+                <div class="ui-glow">
+                    <p id="live-clock" class="font-tech text-7xl font-bold tracking-tighter">--:--</p>
+                    <p id="live-date" class="text-sm uppercase tracking-[0.4em] text-blue-400 mt-2 font-bold italic">SYNCING...</p>
+                </div>
+                <div class="text-right ui-glow">
+                    <p class="font-tech text-4xl">28°C</p>
+                    <p class="text-[10px] uppercase tracking-widest text-gray-400">Solapur, Maharashtra</p>
+                </div>
+            </div>
+
+            <div id="voice-overlay" class="hidden absolute inset-0 bg-blue-950/20 backdrop-blur-xl flex flex-col items-center justify-center">
+                <div class="flex gap-3 h-16 items-center mb-8">
+                    <div class="voice-bar" style="animation-delay: 0.1s"></div>
+                    <div class="voice-bar" style="animation-delay: 0.3s"></div>
+                    <div class="voice-bar" style="animation-delay: 0.5s"></div>
+                    <div class="voice-bar" style="animation-delay: 0.2s"></div>
+                </div>
+                <p id="voice-status" class="font-tech text-blue-400 text-sm uppercase tracking-[0.5em] animate-pulse">IRIS IS SPEAKING...</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="border-glow p-5 rounded-2xl bg-black/60">
+                    <p class="text-[9px] uppercase text-gray-500 mb-1">Humidity [cite: 22]</p>
+                    <p class="font-tech text-xl text-blue-400">45%</p>
+                </div>
+                <div class="border-glow p-5 rounded-2xl bg-black/60">
+                    <p class="text-[9px] uppercase text-gray-500 mb-1">Room Temp [cite: 22]</p>
+                    <p class="font-tech text-xl text-orange-400">24.2°C</p>
+                </div>
+                <div class="border-glow p-5 rounded-2xl bg-black/60">
+                    <p class="text-[9px] uppercase text-gray-500 mb-1">Presence [cite: 22]</p>
+                    <p class="font-tech text-xl text-green-400">DETECTED</p>
+                </div>
+                <div class="border-glow p-5 rounded-2xl bg-black/60">
+                    <p class="text-[9px] uppercase text-gray-500 mb-1">Cloud Sync [cite: 23]</p>
+                    <p class="font-tech text-xl text-emerald-400">STABLE</p>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/5">
+                <marquee class="text-sm italic text-gray-400 font-light">
+                    • [News] IRIS Team: Sanskruti Zanwar & Preeti Kothane unveil Raspberry Pi Smart Mirror  • [Updates] Real-time weather fetched for Solapur via cloud [cite: 23] • [Health] Promoting awareness via timely updates [cite: 26] •
+                </marquee>
+            </div>
+        </div>
+    </section>
+
+    <section id="architecture" class="section-fade py-32 bg-[#050810] border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-center font-tech text-3xl text-blue-500 uppercase tracking-widest mb-20 italic">Technical Design [cite: 28]</h2>
+            <div class="grid lg:grid-cols-2 gap-10">
+                <div class="mirror-frame p-10 rounded-[2.5rem]">
+                    <h3 class="font-tech text-xs text-blue-400 mb-8 uppercase">Hardware Stack [cite: 35]</h3>
+                    <ul class="text-gray-400 space-y-4 text-sm">
+                        <li class="flex justify-between border-b border-white/5 pb-2"><span>Microcontroller</span><span class="text-white">Raspberry Pi</span></li>
+                        <li class="flex justify-between border-b border-white/5 pb-2"><span>Display Layer</span><span class="text-white">LCD behind 2-Way Mirror</span></li>
+                        <li class="flex justify-between border-b border-white/5 pb-2"><span>Sensors</span><span class="text-white">IoT Temp & Motion [cite: 22]</span></li>
+                        <li class="flex justify-between"><span>Audio Unit</span><span class="text-white">Mic & Integrated Speakers</span></li>
+                    </ul>
+                </div>
+                <div class="mirror-frame p-10 rounded-[2.5rem]">
+                    <h3 class="font-tech text-xs text-blue-400 mb-8 uppercase">Application Areas [cite: 43]</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="p-4 border border-white/10 rounded-xl text-center text-[10px] uppercase font-bold text-gray-400">Homes [cite: 44]</div>
+                        <div class="p-4 border border-white/10 rounded-xl text-center text-[10px] uppercase font-bold text-gray-400">Gyms [cite: 45]</div>
+                        <div class="p-4 border border-white/10 rounded-xl text-center text-[10px] uppercase font-bold text-gray-400">Offices [cite: 46]</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    </section>
+
+    <footer class="py-24 text-center border-t border-white/5">
+        <p class="max-w-xl mx-auto text-gray-500 text-sm mb-12 italic">"Overall, the system offers a user-friendly, efficient, and innovative solution for smart living environments." [cite: 42]</p>
+        <p class="font-tech text-[10px] text-gray-700 tracking-[0.5em] uppercase mb-4">IRIS // Shri Siddheshwar Women's Polytechnic</p>
+        <p class="text-[8px] text-gray-800 uppercase tracking-widest leading-none">Sanskruti Zanwar & Preeti Kothane</p>
+    </footer>
+
+    <script>
+        // System Time Sync
+        function updateSystemTime() {
+            const now = new Date();
+            const h = now.getHours().toString().padStart(2, '0');
+            const m = now.getMinutes().toString().padStart(2, '0');
+            const dayName = now.toLocaleDateString('en-IN', { weekday: 'long' }).toUpperCase();
+            const monthName = now.toLocaleDateString('en-IN', { month: 'short' }).toUpperCase();
+            const date = now.getDate();
+            document.getElementById('live-clock').innerText = `${h}:${m}`;
+            document.getElementById('live-date').innerText = `${dayName}, ${monthName} ${date}`;
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // Functional Indian Voice Assistant
+        function irisDailyBriefing() {
+            const mirror = document.getElementById('main-mirror');
+            const overlay = document.getElementById('voice-overlay');
+            mirror.classList.add('mirror-active');
+            overlay.classList.remove('hidden');
+
+            const now = new Date();
+            const h = now.getHours();
+            let greeting = "Good morning";
+            if (h >= 12 && h < 17) greeting = "Good afternoon";
+            else if (h >= 17) greeting = "Good evening";
+
+            const speechText = `${greeting}. I am IRIS, your Interactive Reflective Information System. 
+            It is currently ${h} hours and ${now.getMinutes()} minutes on ${now.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}. 
+            Sanskruti and Preeti have engineered me at Shri Siddheshwar Women's Polytechnic to provide your daily briefing. 
+            Today's weather in Solapur is 28 degrees Celsius with clear skies. Your system status is optimal.`;
+
+            const synth = window.speechSynthesis;
+            const utter = new SpeechSynthesisUtterance(speechText);
+
+            // Attempt to find Indian English voice
+            const voices = synth.getVoices();
+            const indianVoice = voices.find(v => v.lang === 'en-IN' || v.lang === 'hi-IN') || voices[0];
+            utter.voice = indianVoice;
+            utter.rate = 0.92;
+            utter.pitch = 1.0;
+
+            synth.speak(utter);
+
+            utter.onend = () => {
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    mirror.classList.remove('mirror-active');
+                }, 1000);
+            };
+        }
+
+        // Scroll Animation Logic
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.section-fade').forEach(sec => {
+                const pos = sec.getBoundingClientRect().top;
+                if(pos < window.innerHeight * 0.8) sec.classList.add('visible');
+            });
+        });
+
+        window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+    </script>
+</body>
+</html>
