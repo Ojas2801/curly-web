@@ -3,233 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IRIS | Smart Mirror OS</title>
+    <title>IRIS | Corporate Smart Mirror OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { --iris-blue: #00d4ff; }
-        body { font-family: 'Inter', sans-serif; background: #010205; color: #f8fafc; scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+        body { font-family: 'Inter', sans-serif; background: #010205; color: #f8fafc; scroll-behavior: smooth; overflow-x: hidden; }
         .font-tech { font-family: 'Orbitron', sans-serif; }
-        
-        /* Mirror Glass Effect */
         .mirror-frame { 
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(40px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 60px rgba(0,0,0,1);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative; overflow: hidden;
+            position: relative; overflow: hidden; min-height: 85vh;
         }
-        
         #webcam-feed {
             position: absolute; top: 50%; left: 50%;
             min-width: 100%; min-height: 100%;
             transform: translate(-50%, -50%) scaleX(-1);
-            z-index: 0; opacity: 0.35; filter: contrast(1.1) brightness(0.8); object-fit: cover;
+            z-index: 0; opacity: 0.35; object-fit: cover;
         }
-
-        .ui-glow { text-shadow: 0 0 20px rgba(0, 212, 255, 0.9); }
-        .border-glow { border-color: rgba(0, 212, 255, 0.3); box-shadow: 0 0 20px rgba(0, 212, 255, 0.1); }
-
-        @keyframes wave { 0%, 100% { height: 10px; } 50% { height: 40px; } }
-        .voice-bar { width: 4px; background: var(--iris-blue); border-radius: 2px; animation: wave 1s ease-in-out infinite; }
-        
-        .section-fade { opacity: 0; transform: translateY(20px); transition: all 0.5s ease-out; }
-        .section-fade.visible { opacity: 1; transform: translateY(0); }
-        ::-webkit-scrollbar { display: none; }
+        .module-card { background: rgba(0,0,0,0.85); border-left: 2px solid var(--iris-blue); padding: 20px; z-index: 10; }
+        .news-ticker {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 10px 0; z-index: 30;
+        }
+        #brief-btn {
+            position: absolute; bottom: 70px; right: 30px;
+            z-index: 50; background: rgba(0, 212, 255, 0.2);
+            border: 1px solid var(--iris-blue); padding: 12px 24px;
+            border-radius: 12px; transition: all 0.3s;
+        }
+        #brief-btn:hover { background: var(--iris-blue); color: black; }
+        .feature-tag { font-size: 8px; color: var(--iris-blue); border: 1px solid rgba(0, 212, 255, 0.3); padding: 2px 8px; border-radius: 4px; text-transform: uppercase; margin-bottom: 8px; display: inline-block; }
     </style>
 </head>
 <body class="bg-black">
 
-    <nav class="flex justify-between items-center px-6 md:px-10 py-4 fixed w-full z-50 bg-black/80 backdrop-blur-3xl border-b border-white/5">
-        <div class="font-tech text-lg md:text-2xl tracking-[0.2em] text-blue-400 ui-glow">IRIS_CORE</div>
-        <div class="hidden md:flex gap-8 text-[9px] uppercase tracking-[0.3em] font-semibold text-gray-400">
-            <a href="#home" class="hover:text-blue-400 transition">Home</a>
-            <a href="#logic" class="hover:text-blue-400 transition">Problem</a>
-            <a href="#telecast" class="hover:text-blue-400 transition">Live Display</a>
+    <nav class="flex justify-between items-center px-8 py-6 fixed w-full z-[100] bg-black border-b border-white/5">
+        <div class="font-tech text-xl tracking-[0.2em] text-blue-400">IRIS_PRO</div>
+        <div class="hidden md:flex gap-10">
+            <a href="#home" class="text-[10px] uppercase tracking-widest text-white">Home</a>
+            <a href="#review" class="text-[10px] uppercase tracking-widest text-gray-400">Review</a>
+            <a href="#telecast" class="text-[10px] uppercase tracking-widest text-gray-400">Live Display</a>
         </div>
         <div class="text-right border-r-2 border-blue-500 pr-3">
-            <p class="font-tech text-[8px] md:text-[10px] text-blue-400 uppercase leading-none">S.S.W.P</p>
-            <p id="nav-location" class="text-[6px] md:text-[8px] text-gray-500 uppercase">SOLAPUR NODE</p>
+            <p class="font-tech text-[10px] text-blue-400 uppercase leading-none">SSWP</p>
+            <p id="nav-location" class="text-[8px] text-gray-500 uppercase font-bold tracking-widest">SOLAPUR NODE</p>
         </div>
     </nav>
 
-    <header id="home" class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-12">
-        <div class="mb-4 p-1 border-glow rounded-full px-4 py-1 bg-blue-500/10">
-            <span class="text-[8px] md:text-[10px] font-tech text-blue-400 uppercase tracking-widest italic">Autonomous Smart Living Node</span>
-        </div>
-        <h1 class="text-5xl md:text-8xl font-bold tracking-tighter mb-4 text-white uppercase leading-none">REFLECTING <br><span class="text-blue-500 italic">INTELLIGENCE.</span></h1>
-        <p class="max-w-2xl mx-auto text-gray-400 text-sm md:text-lg mb-8 leading-relaxed">
-            IRIS is a central information gateway built for modern Indian households. By leveraging <strong>Ambient Intelligence</strong>, we transform a traditional mirror into an active IoT interface that tracks your world while you reflect on yours.
-        </p>
-        
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl mx-auto mb-10 px-4">
-            <div class="p-4 border border-white/5 bg-white/5 rounded-2xl"><p class="text-blue-400 text-xs font-bold uppercase">Visual</p><p class="text-[8px] text-gray-500 mt-1 uppercase font-tech">Optical Feed</p></div>
-            <div class="p-4 border border-white/5 bg-white/5 rounded-2xl"><p class="text-blue-400 text-xs font-bold uppercase">Voice</p><p class="text-[8px] text-gray-500 mt-1 uppercase font-tech">Siri-Style AI</p></div>
-            <div class="p-4 border border-white/5 bg-white/5 rounded-2xl"><p class="text-blue-400 text-xs font-bold uppercase">IoT</p><p class="text-[8px] text-gray-500 mt-1 uppercase font-tech">Grid Load</p></div>
-            <div class="p-4 border border-white/5 bg-white/5 rounded-2xl"><p class="text-blue-400 text-xs font-bold uppercase">Logic</p><p class="text-[8px] text-gray-500 mt-1 uppercase font-tech">Fast Sync</p></div>
-        </div>
-
-        <button onclick="irisDailyBriefing()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 px-12 py-5 rounded-2xl font-bold uppercase text-[11px] tracking-widest shadow-[0_0_30px_rgba(37,99,235,0.4)] text-white transition-all transform active:scale-90">
-            Initialize Mirror OS
-        </button>
+    <header id="home" class="h-screen flex flex-col items-center justify-center text-center px-6">
+        <h1 class="text-7xl md:text-9xl font-bold tracking-tighter text-white uppercase leading-none">IRIS <span class="text-blue-500">OS</span></h1>
+        <p class="max-w-2xl text-gray-500 mt-6 text-[10px] tracking-[0.5em] font-tech uppercase">Professional Ambient Command System</p>
+        <a href="#telecast" class="mt-12 bg-blue-600 px-12 py-5 rounded-2xl font-bold uppercase text-[11px] tracking-widest text-white transition-all hover:scale-105">Initialize Mirror</a>
     </header>
 
-    <section id="logic" class="section-fade py-20 max-w-7xl mx-auto px-6 border-t border-white/5">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <div class="order-2 lg:order-1">
-                <h2 class="font-tech text-blue-500 text-[10px] tracking-widest uppercase mb-4">Problem Statement</h2>
-                <h3 class="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">Beyond Device Fatigue.</h3>
-                <p class="text-gray-400 text-sm leading-relaxed mb-6 italic">
-                    In an age of notification overload, users spend 40% of their morning routine interacting with screens. This "Digital Friction" causes delay and mental clutter. IRIS offers a <strong>zero-touch interaction model</strong>, delivering data via ambient optics and high-speed voice synthesis.
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-4 bg-white/5 border border-white/10 rounded-xl"><p class="text-blue-400 text-xs font-bold uppercase mb-1 font-tech">Issue 01</p><p class="text-[10px] text-gray-500">Fragmented Data Access</p></div>
-                    <div class="p-4 bg-white/5 border border-white/10 rounded-xl"><p class="text-blue-400 text-xs font-bold uppercase mb-1 font-tech">Issue 02</p><p class="text-[10px] text-gray-500">Manual Touch Friction</p></div>
+    <section id="review" class="py-24 bg-white/5 border-y border-white/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-blue-400 text-sm tracking-[0.3em] uppercase mb-4">Product Review & Architecture</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-sm">An in-depth look at the SSWP-Engineered IRIS platform, combining high-fidelity optics with real-time neural processing.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="p-8 bg-black/40 rounded-3xl border border-white/5">
+                    <span class="feature-tag">Optical Precision</span>
+                    <h3 class="text-2xl font-bold text-white mb-4">Dielectric Glass Technology</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">IRIS utilizes semi-transparent dielectric mirror technology. Unlike standard mirrors, our optical layer allows for a 98% light transmission efficiency for the display while maintaining a crisp, professional reflection for the user.</p>
+                    <ul class="text-[10px] text-blue-400 font-tech space-y-2 uppercase">
+                        <li>• 4K Ultra-Thin Panel Integration</li>
+                        <li>• Anti-Ghosting Display Matrix</li>
+                        <li>• Zero-Lag UI Rendering</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 bg-black/40 rounded-3xl border border-white/5">
+                    <span class="feature-tag">Neural Processing</span>
+                    <h3 class="text-2xl font-bold text-white mb-4">SSWP Intelligence Node</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">The core logic is powered by the SSWP Node, a distributed architecture that handles high-frequency data fetching. By offloading processing from the main UI thread, IRIS maintains a constant 60FPS even during heavy market data streaming.</p>
+                    <ul class="text-[10px] text-blue-400 font-tech space-y-2 uppercase">
+                        <li>• Real-time Nifty/Sensex Fetching</li>
+                        <li>• Local Environment (AQI) Analysis</li>
+                        <li>• Speech-to-Logic Voice Synthesis</li>
+                    </ul>
                 </div>
             </div>
-            <div class="mirror-frame p-8 md:p-10 rounded-[3rem] order-1 lg:order-2">
-                <h4 class="font-tech text-[10px] text-blue-400 mb-6 uppercase">System Objectives</h4>
-                <ul class="space-y-4 text-gray-400 text-xs md:text-sm font-medium">
-                    <li class="flex items-center gap-3"><span class="h-1.5 w-1.5 bg-blue-500 rounded-full"></span> Raspberry Pi 4 Computing Architecture</li>
-                    <li class="flex items-center gap-3"><span class="h-1.5 w-1.5 bg-blue-500 rounded-full"></span> Indian Female AI Briefing Engine</li>
-                    <li class="flex items-center gap-3"><span class="h-1.5 w-1.5 bg-blue-500 rounded-full"></span> Real-time Environmental IoT Sync</li>
-                </ul>
+
+            <div class="mt-12 p-10 bg-blue-600/10 rounded-3xl border border-blue-500/20 text-center">
+                <h3 class="font-tech text-white text-xl mb-4">Professional Use Case</h3>
+                <p class="text-gray-400 text-sm max-w-4xl mx-auto">IRIS is designed for the modern corporate executive. By consolidating morning routines with critical business data, users reduce 'device fatigue' and start their day with a clear, concise overview of their corporate agenda, global markets, and local environmental health.</p>
             </div>
         </div>
     </section>
 
-    <section id="telecast" class="section-fade py-12 md:py-24 max-w-6xl mx-auto px-4">
-        <div id="main-mirror" class="mirror-frame rounded-[2.5rem] md:rounded-[4rem] p-6 md:p-12 min-h-[600px] flex flex-col justify-between">
+    <section id="telecast" class="py-24 px-4 md:px-10">
+        <div class="mirror-frame rounded-[3rem] p-8 md:p-12 flex flex-col justify-between max-w-7xl mx-auto shadow-2xl">
             <video id="webcam-feed" autoplay playsinline muted></video>
 
-            <div class="flex flex-col md:flex-row justify-between items-start relative z-10 gap-6">
-                <div class="ui-glow">
-                    <p id="live-clock" class="font-tech text-5xl md:text-7xl font-bold tracking-tighter text-white">--:--</p>
-                    <p id="live-date" class="text-[10px] uppercase text-blue-400 mt-1 font-bold italic font-tech tracking-widest">SYNCING...</p>
+            <div class="grid grid-cols-12 gap-10 relative z-10">
+                <div class="col-span-12 md:col-span-7">
+                    <p id="live-clock" class="font-tech text-7xl md:text-9xl font-bold text-white leading-none">00:00</p>
+                    <p id="live-date" class="text-blue-400 font-tech text-sm mt-4 tracking-[0.3em]">CALENDAR SYNC ACTIVE</p>
+                    
+                    <div class="flex gap-12 mt-16">
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase font-tech mb-2">Temp</p>
+                            <p id="live-temp" class="text-5xl text-white font-tech">28°C</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase font-tech">AQI & Sports</p>
+                            <p id="live-aqi" class="text-3xl text-green-400 font-tech">AQI 42</p>
+                            <p id="live-sports-ui" class="text-[9px] text-blue-400 font-tech mt-2 uppercase">Sports: IND vs AUS Live</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6 mt-16">
+                        <div class="bg-black/80 p-5 rounded-xl border border-white/10 shadow-lg">
+                            <p class="text-[9px] text-gray-500 font-tech uppercase mb-2">Nifty 50</p>
+                            <p id="nifty-ui" class="text-xl text-emerald-400 font-tech">23,285</p>
+                        </div>
+                        <div class="bg-black/80 p-5 rounded-xl border border-white/10 shadow-lg">
+                            <p class="text-[9px] text-gray-500 font-tech uppercase mb-2">Gold (24K)</p>
+                            <p class="text-xl text-yellow-500 font-tech">₹79,450</p>
+                        </div>
+                        <div class="bg-black/80 p-5 rounded-xl border border-white/10 shadow-lg">
+                            <p class="text-[9px] text-gray-500 font-tech uppercase mb-2">Sunset</p>
+                            <p id="live-sunset" class="text-xl text-orange-500 font-tech">18:45</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="md:text-right ui-glow text-white">
-                    <p id="live-temp" class="font-tech text-3xl md:text-4xl">--°C</p>
-                    <p id="live-location" class="text-[9px] uppercase text-gray-400 font-bold italic font-tech">LOCATING...</p>
+
+                <div class="col-span-12 md:col-span-5">
+                    <div class="module-card h-full rounded-3xl border border-white/10">
+                        <p class="text-[11px] text-blue-400 font-tech uppercase mb-6 tracking-widest">Corporate Agenda</p>
+                        <div id="agenda-list" class="space-y-4 mb-8 h-48 overflow-y-auto pr-2">
+                            <div class="text-[10px] text-gray-500 italic">No corporate tasks active.</div>
+                        </div>
+                        <div class="mt-auto pt-6 border-t border-white/5">
+                            <input type="text" id="task-input" placeholder="Board Meeting @ 10:00" class="w-full bg-white/5 border border-white/10 rounded-lg p-4 text-xs text-white focus:outline-none focus:border-blue-500">
+                            <button onclick="addTask()" class="w-full mt-4 bg-blue-600 text-white font-tech text-[10px] py-4 rounded-xl uppercase tracking-widest transition-all">Update Agenda</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div id="voice-overlay" class="hidden absolute inset-0 bg-blue-950/40 backdrop-blur-xl flex flex-col items-center justify-center z-20">
-                <div class="flex gap-2 h-10 items-center mb-4">
-                    <div class="voice-bar"></div>
-                    <div class="voice-bar" style="animation-delay: 0.2s"></div>
-                    <div class="voice-bar" style="animation-delay: 0.4s"></div>
-                </div>
-                <p class="font-tech text-blue-400 text-[10px] uppercase tracking-[0.3em] animate-pulse italic font-bold">IRIS IS SPEAKING...</p>
+            <button id="brief-btn" onclick="irisDailyBriefing()">
+                <span class="font-tech text-[10px] uppercase tracking-widest">AI Briefing</span>
+            </button>
+
+            <div class="news-ticker">
+                <marquee class="text-[10px] text-gray-400 font-tech tracking-[0.2em] uppercase">
+                    News: Global Tech Markets report 2% growth • Sports: IPL Auction preparations begin • System: SSWP Node Solapur operational • Weather: Clear skies anticipated.
+                </marquee>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 relative z-10">
-                <div class="border-glow p-4 rounded-2xl bg-black/40 backdrop-blur-md">
-                    <p class="text-[8px] uppercase text-gray-400 mb-1 font-tech tracking-widest">Humidity</p>
-                    <p class="font-tech text-lg text-blue-400">45%</p>
-                </div>
-                <div class="border-glow p-4 rounded-2xl bg-black/40 backdrop-blur-md">
-                    <p class="text-[8px] uppercase text-gray-400 mb-1 font-tech tracking-widest">Grid Load</p>
-                    <p class="font-tech text-lg text-orange-400">STABLE</p>
-                </div>
-                <div class="border-glow p-4 rounded-2xl bg-black/40 backdrop-blur-md">
-                    <p id="mod-label-3" class="text-[8px] uppercase text-gray-400 mb-1 font-tech tracking-widest">Local Node</p>
-                    <p id="mod-val-3" class="font-tech text-lg text-green-400 font-bold">SYNCED</p>
-                </div>
-                <div class="border-glow p-4 rounded-2xl bg-black/40 backdrop-blur-md">
-                    <p class="text-[8px] uppercase text-gray-400 mb-1 font-tech tracking-widest">Cam Status</p>
-                    <p id="cam-status" class="font-tech text-lg text-emerald-400 font-bold uppercase tracking-widest">ACTIVE</p>
-                </div>
+            <div id="voice-overlay" class="hidden absolute inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center">
+                <p class="font-tech text-blue-400 tracking-[0.8em] text-lg uppercase">IRIS_VOICE_ACTIVE</p>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 text-center text-gray-700 font-tech text-[8px] tracking-[0.4em] uppercase">
-        IRIS OS // Engineered by Sanskruti Zanwar & Preeti Kothane
-    </footer>
+    <footer class="py-12 text-center text-gray-800 font-tech text-[8px] tracking-[0.4em] uppercase">IRIS OS // SSWP 2026</footer>
 
     <script>
-        let currentCity = "Solapur"; 
-        let currentTemp = "28";
         const synth = window.speechSynthesis;
+        let city = "SOLAPUR";
+        let temp = "28", sunset = "18:45", aqi = "42";
 
-        // INSTANT CAMERA INIT
-        async function initCamera() {
-            const video = document.getElementById('webcam-feed');
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
-                video.srcObject = stream;
-            } catch (err) {
-                document.getElementById('cam-status').innerText = "ERROR";
-                document.getElementById('cam-status').style.color = "#ef4444";
-            }
+        function addTask() {
+            const input = document.getElementById('task-input'), list = document.getElementById('agenda-list');
+            if (input.value.trim() === "") return;
+            if (list.querySelector('div.italic')) list.innerHTML = '';
+            const div = document.createElement('div');
+            div.className = "flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/5";
+            div.innerHTML = `<span class="text-[11px] text-white">${input.value}</span><button onclick="this.parentElement.remove()" class="text-[9px] text-gray-600 hover:text-red-500 uppercase">Clear</button>`;
+            list.appendChild(div);
+            input.value = "";
         }
 
-        // FAST GEOLOCATION & WEATHER
-        async function initSystem() {
+        async function init() {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(s => document.getElementById('webcam-feed').srcObject = s).catch(e => console.log("Cam denied"));
+            
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(async (pos) => {
-                    const { latitude, longitude } = pos.coords;
                     try {
-                        const weather = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`).then(r => r.json());
-                        currentTemp = Math.round(weather.current_weather.temperature);
-                        document.getElementById('live-temp').innerText = `${currentTemp}°C`;
-                        
-                        const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`).then(r => r.json());
-                        currentCity = geo.address.city || geo.address.town || "Solapur";
-                        
-                        const locString = `${currentCity.toUpperCase()}, ${geo.address.state.toUpperCase()}`;
-                        document.getElementById('live-location').innerText = locString;
-                        document.getElementById('nav-location').innerText = locString + " NODE";
-                        
-                        // Solapur Specific Logic
-                        if(currentCity.toLowerCase().includes("solapur")) {
-                            document.getElementById('mod-label-3').innerText = "TEXTILE STATUS";
-                            document.getElementById('mod-val-3').innerText = "OPTIMAL";
-                        }
-                    } catch (e) { console.log("API Sync Error - Defaulting to Solapur Node"); }
-                }, () => {}, { enableHighAccuracy: true });
+                        const { latitude, longitude } = pos.coords;
+                        const wRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&daily=sunset&timezone=auto`).then(r => r.json());
+                        temp = Math.round(wRes.current_weather.temperature);
+                        sunset = new Date(wRes.daily.sunset[0]).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+                        document.getElementById('live-temp').innerText = temp + "°C";
+                        document.getElementById('live-sunset').innerText = sunset;
+
+                        const gRes = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=en`).then(r => r.json());
+                        city = (gRes.address.city || gRes.address.town || "SOLAPUR").toUpperCase();
+                        document.getElementById('nav-location').innerText = `${city} NODE`;
+                    } catch (e) { console.log("Location fetch error"); }
+                }, null, { enableHighAccuracy: true });
             }
-            initCamera();
+
+            const now = new Date(), t = now.getHours() * 100 + now.getMinutes(), d = now.getDay();
+            if (d === 0 || d === 6 || t < 915 || t > 1530) {
+                document.getElementById('nifty-ui').innerText = "CLOSED";
+                document.getElementById('nifty-ui').style.color = "#4b5563";
+            }
         }
 
-        // PRECISE INDIAN FEMALE VOICE
-        function getFemaleVoice() {
-            const voices = synth.getVoices();
-            return voices.find(v => (v.lang === 'en-IN' || v.name.includes('India')) && (v.name.includes('Female') || v.name.includes('Heera') || v.name.includes('Neerja'))) 
-                   || voices.find(v => v.lang.includes('en') && (v.name.includes('Female') || v.name.includes('Samantha')))
-                   || voices[0];
-        }
-
-        // INSTANT REACTION FUNCTION
         function irisDailyBriefing() {
-            document.getElementById('telecast').scrollIntoView({ behavior: 'smooth' });
-            const mirror = document.getElementById('main-mirror');
             const overlay = document.getElementById('voice-overlay');
-            mirror.classList.add('mirror-active');
             overlay.classList.remove('hidden');
-
-            synth.cancel(); // Force reaction speed
-
-            const now = new Date();
-            const hrs = now.getHours();
-            const timeStr = `${hrs % 12 || 12}:${now.getMinutes().toString().padStart(2, '0')} ${hrs >= 12 ? 'PM' : 'AM'}`;
-
-            const text = `Good ${hrs < 12 ? 'morning' : hrs < 17 ? 'afternoon' : 'evening'}. I am IRIS. The time is ${timeStr}. In ${currentCity}, it is currently ${currentTemp} degrees. Sanskruti and Preeti, your mirror system is online and local nodes are running stable.`;
+            synth.cancel();
             
-            const utter = new SpeechSynthesisUtterance(text);
-            utter.voice = getFemaleVoice();
-            utter.rate = 1.05; 
-            utter.pitch = 1.25; 
-
-            synth.speak(utter);
-
-            utter.onend = () => {
-                setTimeout(() => {
-                    overlay.classList.add('hidden');
-                    mirror.classList.remove('mirror-active');
-                }, 1000);
-            };
+            const msg = new SpeechSynthesisUtterance(`Good day Sanskruti and Preeti. I am your personal IRIS assistant. The temperature in ${city} is ${temp} degrees. Air quality index is ${aqi}. Gold is trading at 79,450. Please check your agenda for corporate updates. Sunset is at ${sunset}. System stable.`);
+            const voices = synth.getVoices();
+            msg.voice = voices.find(v => v.lang.includes('en-IN') && v.name.includes('Female')) || voices[0];
+            msg.rate = 0.95;
+            synth.speak(msg);
+            msg.onend = () => overlay.classList.add('hidden');
         }
 
         function updateClock() {
@@ -238,15 +229,7 @@
             document.getElementById('live-date').innerText = now.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short' }).toUpperCase();
         }
 
-        setInterval(updateClock, 1000);
-        updateClock();
-        initSystem();
-        window.speechSynthesis.onvoiceschanged = getFemaleVoice;
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.section-fade').forEach(s => observer.observe(s));
+        window.onload = () => { init(); setInterval(updateClock, 1000); updateClock(); };
     </script>
 </body>
 </html>
