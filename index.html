@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IRIS | Corporate Smart Mirror OS</title>
+    <title>IRIS | Bharati Vidyapeeth Smart Mirror OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --iris-blue: #00d4ff; }
+        :root { --iris-blue: #00d4ff; --bv-gold: #fbbf24; }
         body { font-family: 'Inter', sans-serif; background: #010205; color: #f8fafc; scroll-behavior: smooth; overflow-x: hidden; }
         .font-tech { font-family: 'Orbitron', sans-serif; }
         .mirror-frame { 
@@ -49,14 +49,14 @@
             <a href="#telecast" class="text-[10px] uppercase tracking-widest text-gray-400">Live Display</a>
         </div>
         <div class="text-right border-r-2 border-blue-500 pr-3">
-            <p class="font-tech text-[10px] text-blue-400 uppercase leading-none">SSWP</p>
-            <p id="nav-location" class="text-[8px] text-gray-500 uppercase font-bold tracking-widest">SOLAPUR NODE</p>
+            <p class="font-tech text-[10px] text-blue-400 uppercase leading-none">BHARATI VIDYAPEETH</p>
+            <p id="nav-location" class="text-[8px] text-gray-500 uppercase font-bold tracking-widest">PUNE/SOLAPUR NODE</p>
         </div>
     </nav>
 
     <header id="home" class="h-screen flex flex-col items-center justify-center text-center px-6">
         <h1 class="text-7xl md:text-9xl font-bold tracking-tighter text-white uppercase leading-none">IRIS <span class="text-blue-500">OS</span></h1>
-        <p class="max-w-2xl text-gray-500 mt-6 text-[10px] tracking-[0.5em] font-tech uppercase">Professional Ambient Command System</p>
+        <p class="max-w-2xl text-gray-500 mt-6 text-[10px] tracking-[0.5em] font-tech uppercase">Bharati Vidyapeeth Ambient Command System</p>
         <a href="#telecast" class="mt-12 bg-blue-600 px-12 py-5 rounded-2xl font-bold uppercase text-[11px] tracking-widest text-white transition-all hover:scale-105">Initialize Mirror</a>
     </header>
 
@@ -64,7 +64,7 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="font-tech text-blue-400 text-sm tracking-[0.3em] uppercase mb-4">Product Review & Architecture</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto text-sm">An in-depth look at the SSWP-Engineered IRIS platform, combining high-fidelity optics with real-time neural processing.</p>
+                <p class="text-gray-400 max-w-2xl mx-auto text-sm">An in-depth look at the Bharati Vidyapeeth Engineered IRIS platform, combining high-fidelity optics with real-time neural processing.</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-12">
@@ -81,8 +81,8 @@
 
                 <div class="p-8 bg-black/40 rounded-3xl border border-white/5">
                     <span class="feature-tag">Neural Processing</span>
-                    <h3 class="text-2xl font-bold text-white mb-4">SSWP Intelligence Node</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-4">The core logic is powered by the SSWP Node, a distributed architecture that handles high-frequency data fetching. By offloading processing from the main UI thread, IRIS maintains a constant 60FPS even during heavy market data streaming.</p>
+                    <h3 class="text-2xl font-bold text-white mb-4">BV Intelligence Node</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">The core logic is powered by the Bharati Vidyapeeth Node, a distributed architecture that handles high-frequency data fetching. By offloading processing from the main UI thread, IRIS maintains a constant 60FPS even during heavy market data streaming.</p>
                     <ul class="text-[10px] text-blue-400 font-tech space-y-2 uppercase">
                         <li>• Real-time Nifty/Sensex Fetching</li>
                         <li>• Local Environment (AQI) Analysis</li>
@@ -155,7 +155,7 @@
 
             <div class="news-ticker">
                 <marquee class="text-[10px] text-gray-400 font-tech tracking-[0.2em] uppercase">
-                    News: Global Tech Markets report 2% growth • Sports: IPL Auction preparations begin • System: SSWP Node Solapur operational • Weather: Clear skies anticipated.
+                    News: Global Tech Markets report 2% growth • Sports: IPL Auction preparations begin • System: Bharati Vidyapeeth Node Solapur operational • Weather: Clear skies anticipated.
                 </marquee>
             </div>
 
@@ -165,7 +165,7 @@
         </div>
     </section>
 
-    <footer class="py-12 text-center text-gray-800 font-tech text-[8px] tracking-[0.4em] uppercase">IRIS OS // SSWP 2026</footer>
+    <footer class="py-12 text-center text-gray-800 font-tech text-[8px] tracking-[0.4em] uppercase">IRIS OS // BHARATI VIDYAPEETH 2026</footer>
 
     <script>
         const synth = window.speechSynthesis;
@@ -215,7 +215,8 @@
             overlay.classList.remove('hidden');
             synth.cancel();
             
-            const msg = new SpeechSynthesisUtterance(`Good day Sanskruti and Preeti. I am your personal IRIS assistant. The temperature in ${city} is ${temp} degrees. Air quality index is ${aqi}. Gold is trading at 79,450. Please check your agenda for corporate updates. Sunset is at ${sunset}. System stable.`);
+            // Updated voice greeting for Bharati Vidyapeeth
+            const msg = new SpeechSynthesisUtterance(`Good day Sanskruti and Preeti. I am your personal IRIS assistant, powered by Bharati Vidyapeeth. The temperature in ${city} is ${temp} degrees. Air quality index is ${aqi}. Gold is trading at 79,450. Please check your agenda for corporate updates. Sunset is at ${sunset}. System stable.`);
             const voices = synth.getVoices();
             msg.voice = voices.find(v => v.lang.includes('en-IN') && v.name.includes('Female')) || voices[0];
             msg.rate = 0.95;
